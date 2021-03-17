@@ -16,12 +16,9 @@ Devise.setup do |config|
   # by default. You can change it below and use your own secret key.
   # config.secret_key = '418eec9c157094060ee2335386d905b2ebadcfee20a53f7a3c4c97e9b8796c8343ac95839781619797047ab2c18cd45f4edffe90ae65e60ea1054301350be911'
   config.jwt do |jwt|
-    jwt.secret = ENV['DEVISE_JWT_SECRET_KEY']
+    jwt.secret = ENV["DEVISE_JWT_SECRET_KEY"]
     jwt.dispatch_requests = [
-      ['POST', %r{^/login$}]
-    ]
-    jwt.revocation_requests = [
-      ['DELETE', %r{^/logout$}]
+      ['POST', %r{^/api/v1/users/sign_in$}]
     ]
     jwt.expiration_time = 60.day.to_i
   end
