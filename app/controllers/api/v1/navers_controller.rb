@@ -18,6 +18,14 @@ class Api::V1::NaversController < Api::V1::ApiController
     end
   end
 
+  def show
+    @naver = Naver.find_by_id(params[:id])
+
+    return render status: :not_found if @naver.nil?
+
+    render json: @naver, status: :ok
+  end
+
   private
 
   def naver_params
