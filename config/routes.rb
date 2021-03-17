@@ -5,6 +5,7 @@ Rails.application.routes.draw do
         sessions: 'api/v1/sessions',
         registrations: 'api/v1/registrations'
       }
+      resources :navers, controller: 'api/v1/navers'
     end
   end
 end
