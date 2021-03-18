@@ -19,11 +19,27 @@ class Api::V1::NaversController < Api::V1::ApiController
   end
 
   def show
-    @naver = Naver.find_by_id(params[:id])
+    @naver = Naver.find_by(id: params[:id])
 
     return render status: :not_found if @naver.nil?
 
     render json: @naver, status: :ok
+  end
+
+  def update
+    @naver = Naver.find_by(id: params[:id])
+    return render status: :not_found if @naver.nil?
+
+    return render json: @naver, status: :ok if @naver.update(naver_params)
+
+    render json: @naver.errors, status: :unprocessable_entity
+  end
+
+  def destroy
+    @naver = Naver.find_by(id: params[:id])
+    return render status: :not_found if @naver.nil?
+
+    render status: :no_content
   end
 
   private
