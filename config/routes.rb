@@ -6,7 +6,7 @@ Rails.application.routes.draw do
         registrations: 'api/v1/registrations'
       }
       resources :navers, controller: 'api/v1/navers'
-      resources :projects, controller: 'api/v1/navers'
+      resources :projects, controller: 'api/v1/projects'
     end
   end
 end
