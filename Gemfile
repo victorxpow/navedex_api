@@ -3,6 +3,7 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby '2.7.2'
 
+gem 'active_model_serializers'
 gem 'devise'
 gem 'devise-jwt'
 gem 'pg', '~> 1.1'
