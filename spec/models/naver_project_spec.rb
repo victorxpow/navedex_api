@@ -1,5 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe NaverProject, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+  it { should belong_to(:naver) }
+  it { should belong_to(:project) }
 end

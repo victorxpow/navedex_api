@@ -57,10 +57,10 @@ RSpec.describe 'Navers', type: :request do
         post '/api/v1/users/sign_in', params: valid_params
       end
       let(:token) { { Authorization: response.headers['Authorization'] } }
-
+      let!(:project) { create(:project) }
       let(:valid_attributes) do
         attributes_for(:naver, name: 'Yusuke Urameshi', birthdate: '1999-05-15', admission_date: '2020-06-12',
-                               job_role: 'Desenvolvedor')
+                               job_role: 'Desenvolvedor', projects: [1])
       end
 
       before { post '/api/v1/navers', params: valid_attributes, headers: token }
@@ -72,10 +72,26 @@ RSpec.describe 'Navers', type: :request do
         expect(json['admission_date']).to eq('2020-06-12')
         expect(json['job_role']).to eq('Desenvolvedor')
       end
-
+      
       it 'returns status code 201' do
         expect(response).to have_http_status(201)
       end
+
+      it 'creates a naver with projects' do
+        project = create(:project, name: 'Improving Sales BG')
+        
+        valid_params = attributes_for(:naver, name: 'Yusuke Urameshi', birthdate: '1999-05-15', admission_date: '2020-06-12',
+          job_role: 'Desenvolvedor', project_ids: [project.id])
+
+        post '/api/v1/navers', params: valid_params, headers: token
+        json = JSON.parse(response.body).symbolize_keys
+        expect(json[:name]).to eq('Yusuke Urameshi')
+        expect(json[:birthdate]).to eq('1999-05-15')
+        expect(json[:admission_date]).to eq('2020-06-12')
+        expect(json[:job_role]).to eq('Desenvolvedor')
+        expect(json[:projects].size).to eq(1)
+      end
+
     end
 
     context 'when are not authenticated' do

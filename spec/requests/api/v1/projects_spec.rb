@@ -70,6 +70,18 @@ RSpec.describe 'Projects', type: :request do
       it 'returns status code 201' do
         expect(response).to have_http_status(201)
       end
+
+      it 'creates a project with naver' do
+        naver = create(:naver, name: 'Yusuke Urameshi', birthdate: '1999-05-15', admission_date: '2020-06-12',
+          job_role: 'Desenvolvedor', user: user)
+
+        valid_params = attributes_for(:project, name: 'Improving Sales BG', naver_ids: [naver.id])
+        
+
+        post '/api/v1/projects', params: valid_params, headers: token
+        json = JSON.parse(response.body).symbolize_keys
+        expect(json[:name]).to eq('Improving Sales BG')
+      end
     end
 
     context 'when are not authenticated' do

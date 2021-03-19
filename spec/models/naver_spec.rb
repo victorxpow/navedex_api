@@ -3,6 +3,8 @@ require 'rails_helper'
 RSpec.describe Naver, type: :model do
   describe 'associations' do
     it { should belong_to(:user) }
+    it { should have_many(:projects).through(:naver_projects) }
+    it { should have_many(:naver_projects) }
   end
 
   describe 'validations' do
