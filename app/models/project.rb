@@ -1,5 +1,6 @@
 class Project < ApplicationRecord
-  has_and_belongs_to_many :navers, optional: true
+  has_many :naver_projects
+  has_many :navers, through: :naver_projects
 
   validates :name, presence: true
   validates :name, uniqueness: true

@@ -1,6 +1,7 @@
 class Naver < ApplicationRecord
   belongs_to :user
-  has_and_belongs_to_many :projects, optional: true
+  has_many :naver_projects
+  has_many :projects, through: :naver_projects
 
   validates :name, :birthdate, :admission_date, :job_role, presence: true
 end

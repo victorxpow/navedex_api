@@ -42,6 +42,6 @@ class Api::V1::ProjectsController < Api::V1::ApiController
   private
 
   def project_params
-    params.permit(:name, navers: [:naver_id])
+    params.permit(:name, naver_ids: [])
   end
 end

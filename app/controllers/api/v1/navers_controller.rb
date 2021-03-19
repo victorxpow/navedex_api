@@ -44,6 +44,6 @@ class Api::V1::NaversController < Api::V1::ApiController
   private
 
   def naver_params
-    params.permit(:name, :birthdate, :admission_date, :job_role, projects: [:project_id])
+    params.permit(:name, :birthdate, :admission_date, :job_role, project_ids: [])
   end
 end
