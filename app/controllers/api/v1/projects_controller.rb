@@ -2,7 +2,7 @@ class Api::V1::ProjectsController < Api::V1::ApiController
   def index
     @projects = Project.all
 
-    render json: @projects
+    render json: @projects, each_serializer: ProjectsSerializer
   end
 
   def create

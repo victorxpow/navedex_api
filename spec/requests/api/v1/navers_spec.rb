@@ -79,9 +79,10 @@ RSpec.describe 'Navers', type: :request do
 
       it 'creates a naver with projects' do
         project = create(:project, name: 'Improving Sales BG')
+        other_project = create(:project)
         
         valid_params = attributes_for(:naver, name: 'Yusuke Urameshi', birthdate: '1999-05-15', admission_date: '2020-06-12',
-          job_role: 'Desenvolvedor', project_ids: [project.id])
+          job_role: 'Desenvolvedor', project_ids: [project.id, other_project.id])
 
         post '/api/v1/navers', params: valid_params, headers: token
         json = JSON.parse(response.body).symbolize_keys
@@ -89,7 +90,7 @@ RSpec.describe 'Navers', type: :request do
         expect(json[:birthdate]).to eq('1999-05-15')
         expect(json[:admission_date]).to eq('2020-06-12')
         expect(json[:job_role]).to eq('Desenvolvedor')
-        expect(json[:projects].size).to eq(1)
+        expect(json[:projects].size).to eq(2)
       end
 
     end
@@ -124,12 +125,20 @@ RSpec.describe 'Navers', type: :request do
 
     context 'when the record exists' do
       it 'returns the naver' do
-        naver = create(:naver, user: user)
+        project = create(:project)
+        other_project = create(:project)
+        naver = create(:naver, user: user, project_ids: [project.id, other_project.id])
         get "/api/v1/navers/#{naver.id}", headers: token
 
-        json = JSON.parse(response.body)
+        json = JSON.parse(response.body).symbolize_keys
+
         expect(json).not_to be_empty
-        expect(json['id']).to eq(naver.id)
+        expect(json[:id]).to eq(naver.id)
+        expect(json[:name]).to eq(naver.name)
+        expect(json[:birthdate]).to eq(naver.birthdate.strftime('%Y-%m-%d'))
+        expect(json[:admission_date]).to eq(naver.admission_date.strftime('%Y-%m-%d'))
+        expect(json[:job_role]).to eq(naver.job_role)
+        expect(json[:projects].size).to eq(2)
       end
 
       it 'returns status code 200' do
