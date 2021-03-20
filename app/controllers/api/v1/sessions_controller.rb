@@ -7,7 +7,7 @@ class Api::V1::SessionsController < Devise::SessionsController
 
   private
 
-  def respond_with(resource, _opts = {})
+  def respond_with(_resource, _opts = {})
     render json: "access token: { Bearer #{@token} }"
   end
 

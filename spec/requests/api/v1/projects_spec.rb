@@ -73,10 +73,9 @@ RSpec.describe 'Projects', type: :request do
 
       it 'creates a project with naver' do
         naver = create(:naver, name: 'Yusuke Urameshi', birthdate: '1999-05-15', admission_date: '2020-06-12',
-          job_role: 'Desenvolvedor', user: user)
+                               job_role: 'Desenvolvedor', user: user)
 
-        valid_params = attributes_for(:project, name: 'Improving Sales BG', naver_ids: [naver.id])
-        
+        valid_params = attributes_for(:project, name: 'Improving Sales BG', navers: [naver.id])
 
         post '/api/v1/projects', params: valid_params, headers: token
         json = JSON.parse(response.body).symbolize_keys

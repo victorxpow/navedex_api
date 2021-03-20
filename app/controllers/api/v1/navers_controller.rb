@@ -1,5 +1,4 @@
 class Api::V1::NaversController < Api::V1::ApiController
-
   def index
     @navers = Naver.all
 
@@ -44,6 +43,8 @@ class Api::V1::NaversController < Api::V1::ApiController
   private
 
   def naver_params
-    params.permit(:name, :birthdate, :admission_date, :job_role, project_ids: [])
+    naver_params = params.permit(:name, :birthdate, :admission_date, :job_role, projects: [])
+    naver_params[:project_ids] = naver_params.delete :projects
+    naver_params.permit!
   end
 end

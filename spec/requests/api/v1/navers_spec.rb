@@ -57,10 +57,9 @@ RSpec.describe 'Navers', type: :request do
         post '/api/v1/users/sign_in', params: valid_params
       end
       let(:token) { { Authorization: response.headers['Authorization'] } }
-      let!(:project) { create(:project) }
       let(:valid_attributes) do
         attributes_for(:naver, name: 'Yusuke Urameshi', birthdate: '1999-05-15', admission_date: '2020-06-12',
-                               job_role: 'Desenvolvedor', projects: [1])
+                               job_role: 'Desenvolvedor')
       end
 
       before { post '/api/v1/navers', params: valid_attributes, headers: token }
@@ -72,7 +71,7 @@ RSpec.describe 'Navers', type: :request do
         expect(json['admission_date']).to eq('2020-06-12')
         expect(json['job_role']).to eq('Desenvolvedor')
       end
-      
+
       it 'returns status code 201' do
         expect(response).to have_http_status(201)
       end
@@ -80,9 +79,9 @@ RSpec.describe 'Navers', type: :request do
       it 'creates a naver with projects' do
         project = create(:project, name: 'Improving Sales BG')
         other_project = create(:project)
-        
+
         valid_params = attributes_for(:naver, name: 'Yusuke Urameshi', birthdate: '1999-05-15', admission_date: '2020-06-12',
-          job_role: 'Desenvolvedor', project_ids: [project.id, other_project.id])
+                                              job_role: 'Desenvolvedor', projects: [project.id, other_project.id])
 
         post '/api/v1/navers', params: valid_params, headers: token
         json = JSON.parse(response.body).symbolize_keys
@@ -92,7 +91,6 @@ RSpec.describe 'Navers', type: :request do
         expect(json[:job_role]).to eq('Desenvolvedor')
         expect(json[:projects].size).to eq(2)
       end
-
     end
 
     context 'when are not authenticated' do
@@ -127,7 +125,7 @@ RSpec.describe 'Navers', type: :request do
       it 'returns the naver' do
         project = create(:project)
         other_project = create(:project)
-        naver = create(:naver, user: user, project_ids: [project.id, other_project.id])
+        naver = create(:naver, user: user, projects: [project, other_project])
         get "/api/v1/navers/#{naver.id}", headers: token
 
         json = JSON.parse(response.body).symbolize_keys

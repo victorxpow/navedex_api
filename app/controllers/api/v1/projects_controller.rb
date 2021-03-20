@@ -42,6 +42,8 @@ class Api::V1::ProjectsController < Api::V1::ApiController
   private
 
   def project_params
-    params.permit(:name, naver_ids: [])
+    project_params = params.permit(:name, navers: [])
+    project_params[:naver_ids] = project_params.delete :navers
+    project_params.permit!
   end
 end
