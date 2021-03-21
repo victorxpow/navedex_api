@@ -35,11 +35,6 @@ ActiveRecord::Schema.define(version: 2021_03_18_235624) do
     t.index ["user_id"], name: "index_navers_on_user_id"
   end
 
-  create_table "navers_projects", id: false, force: :cascade do |t|
-    t.bigint "naver_id", null: false
-    t.bigint "project_id", null: false
-  end
-
   create_table "projects", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", precision: 6, null: false

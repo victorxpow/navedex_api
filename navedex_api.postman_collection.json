@@ -1,0 +1,545 @@
+{
+	"info": {
+		"_postman_id": "72e3b2e8-aa3a-4503-be5c-951b55d8ff89",
+		"name": "navedex_api",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "[SISTEMA] Registro",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"user\": {\n        \"email\": \"senhor@teste.com\",\n        \"password\": \"testex\"\n    }\n}"
+				},
+				"url": {
+					"raw": "localhost:3000/api/v1/users/",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"v1",
+						"users",
+						""
+					]
+				},
+				"description": "Rota onde realizamos o registro para acessar o sistema."
+			},
+			"response": []
+		},
+		{
+			"name": "[SISTEMA] Login",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"user\": {\n        \"email\": \"senhor@teste.com\",\n        \"password\": \"testex\"\n    }\n}"
+				},
+				"url": {
+					"raw": "localhost:3000/api/v1/users/sign_in",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"v1",
+						"users",
+						"sign_in"
+					]
+				},
+				"description": "Após o login receberemos o token que iremos utilizar para realizar as outras chamadas."
+			},
+			"response": []
+		},
+		{
+			"name": "[NAVER] Index",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Insira o JWT Token aqui",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/api/v1/navers",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"v1",
+						"navers"
+					]
+				},
+				"description": "Lista com todos os Navers"
+			},
+			"response": []
+		},
+		{
+			"name": "[NAVER] Show",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Insira o JWT Token aqui",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/api/v1/navers/1",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"v1",
+						"navers",
+						"1"
+					]
+				},
+				"description": "Mostra os detalhes de um naver, incluindo seus projetos."
+			},
+			"response": []
+		},
+		{
+			"name": "[NAVER] Create",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Insira o JWT Token aqui",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"Fulano\",\n    \"birthdate\": \"1999-05-15\",\n    \"admission_date\": \"2020-06-12\",\n    \"job_role\": \"Desenvolvedor\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/api/v1/navers",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"v1",
+						"navers"
+					]
+				},
+				"description": "Criar um naver"
+			},
+			"response": []
+		},
+		{
+			"name": "[NAVER] Update",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Insira o JWT Token aqui",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"Ciclano\",\n    \"birthdate\": \"1996-05-15\",\n    \"admission_date\": \"2015-06-12\",\n    \"job_role\": \"SRE\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/api/v1/navers/1",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"v1",
+						"navers",
+						"1"
+					]
+				},
+				"description": "Atualizar um atributo do naver"
+			},
+			"response": []
+		},
+		{
+			"name": "[NAVER] Destroy",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Insira o JWT Token aqui",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/api/v1/navers/1",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"v1",
+						"navers",
+						"1"
+					]
+				},
+				"description": "Deletar um naver"
+			},
+			"response": []
+		},
+		{
+			"name": "[PROJECT] Index",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Insira o JWT Token aqui",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/api/v1/projects",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"v1",
+						"projects"
+					]
+				},
+				"description": "Lista com todos os Projetos"
+			},
+			"response": []
+		},
+		{
+			"name": "[PROJECT] Show",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Insira o JWT Token aqui",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/api/v1/projects/1",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"v1",
+						"projects",
+						"1"
+					]
+				},
+				"description": "Mostra os detalhes de um projeto, incluindo seus navers."
+			},
+			"response": []
+		},
+		{
+			"name": "[PROJECT] Create",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"type": "text",
+						"value": "Insira o JWT Token aqui"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"Improving the scale\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/api/v1/projects",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"v1",
+						"projects"
+					]
+				},
+				"description": "Cria um novo projeto"
+			},
+			"response": []
+		},
+		{
+			"name": "[PROJECT] Update",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Insira o JWT Token aqui",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"Improving Scale and perfomance\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/api/v1/projects/1",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"v1",
+						"projects",
+						"1"
+					]
+				},
+				"description": "Atualizar um atributo do projeto"
+			},
+			"response": []
+		},
+		{
+			"name": "[PROJECT] Destroy",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Insira o JWT Token aqui",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/api/v1/projects/1",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"v1",
+						"projects",
+						"1"
+					]
+				},
+				"description": "Deletar um projeto"
+			},
+			"response": []
+		},
+		{
+			"name": "[NAVER/PROJECT] Create",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"type": "text",
+						"value": "Insira o JWT Token aqui"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"Treubano\",\n    \"birthdate\": \"1994-01-22\",\n    \"admission_date\": \"2010-01-02\",\n    \"job_role\": \"Agilista\",\n    \"projects\": [1]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/api/v1/navers",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"v1",
+						"navers"
+					]
+				},
+				"description": "Criar um naver com um projeto associado"
+			},
+			"response": []
+		},
+		{
+			"name": "[PROJECT/NAVER] Create",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"type": "text",
+						"value": "Insira o JWT Token aqui"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"Improving the perfomance\",\n    \"navers\": [1]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/api/v1/projects",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"v1",
+						"projects"
+					]
+				},
+				"description": "Cria um novo projeto com um naver associado"
+			},
+			"response": []
+		}
+	]
+}

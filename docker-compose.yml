@@ -2,7 +2,7 @@ version: '3'
 services:
   rails:
     build: .
-    command: rails s -b 0.0.0.0
+    command: /bin/sh -c "rm /opt/app/tmp/pids/server.pid && rails s -b 0.0.0.0"
     container_name: navedex_api
     ports:
       - 3000:3000
