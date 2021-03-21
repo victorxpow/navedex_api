@@ -52,12 +52,12 @@ RSpec.describe 'Projects', type: :request do
       }
     end
 
-    context 'when params are correct' do
-      before do
-        post '/api/v1/users/sign_in', params: valid_params
-      end
-      let(:token) { { Authorization: response.headers['Authorization'] } }
+    before do
+      post '/api/v1/users/sign_in', params: valid_params
+    end
+    let(:token) { { Authorization: response.headers['Authorization'] } }
 
+    context 'when params are correct' do
       let(:valid_attributes) { attributes_for(:project, name: 'Desconstrução de monolito') }
 
       before { post '/api/v1/projects', params: valid_attributes, headers: token }
@@ -80,6 +80,15 @@ RSpec.describe 'Projects', type: :request do
         post '/api/v1/projects', params: valid_params, headers: token
         json = JSON.parse(response.body).symbolize_keys
         expect(json[:name]).to eq('Improving Sales BG')
+      end
+    end
+
+    context 'fail' do
+      let(:params) { {} }
+
+      it 'missing params' do
+        post '/api/v1/projects', params: params, headers: token
+        expect(response).to have_http_status :unprocessable_entity
       end
     end
 
@@ -175,6 +184,18 @@ RSpec.describe 'Projects', type: :request do
         expect(response).to have_http_status(200)
       end
     end
+
+    context 'fail' do
+      let(:params) { attributes_for(:project, name: 'Improving the coverage') }
+
+      it 'missing params' do
+        project = create(:project, name: 'Improving the coverage')
+        other_project = create(:project)
+        put "/api/v1/projects/#{other_project.id}", params: params, headers: token
+        expect(response).to have_http_status :unprocessable_entity
+      end
+    end
+
     context 'when are not authenticated' do
       it 'returns status code 401' do
         project = create(:project)

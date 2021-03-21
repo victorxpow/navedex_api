@@ -11,10 +11,6 @@ class Api::V1::SessionsController < Devise::SessionsController
     render json: "access token: { Bearer #{@token} }"
   end
 
-  def respond_to_on_destroy
-    head :no_content
-  end
-
   def current_token
     request.env['warden-jwt_auth.token']
   end

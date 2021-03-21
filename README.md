@@ -22,7 +22,7 @@ Dentro do diretório do projeto, você deve adiconar as variaveis de ambiente co
 ## Testando o projeto
 ### Postman
 
-Após o projeto estiver rodando você pode usar esta [collection do postman](navedex_api.postman_collection.json) para testar as rotas ou fazer manualmente.
+Após o projeto estiver rodando você pode usar esta [collection do postman](navedex_api.postman_collection.json) para testar as rotas ou fazer manualmente. Lembrando que todas as rotas de navers/projects será requisitado o authorization/token no header.
 
 ### Rspec
 

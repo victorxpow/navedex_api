@@ -28,6 +28,8 @@ class Api::V1::NaversController < Api::V1::ApiController
     @naver = Naver.find_by(id: params[:id])
     return render status: :not_found if @naver.nil?
 
+    @naver.update(naver_params) if naver_params.nil?
+
     return render json: @naver, status: :ok if @naver.update(naver_params)
 
     render json: @naver.errors, status: :unprocessable_entity

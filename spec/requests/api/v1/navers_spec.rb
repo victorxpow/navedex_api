@@ -52,11 +52,13 @@ RSpec.describe 'Navers', type: :request do
       }
     end
 
+    before do
+      post '/api/v1/users/sign_in', params: valid_params
+    end
+
+    let(:token) { { Authorization: response.headers['Authorization'] } }
+
     context 'when params are correct' do
-      before do
-        post '/api/v1/users/sign_in', params: valid_params
-      end
-      let(:token) { { Authorization: response.headers['Authorization'] } }
       let(:valid_attributes) do
         attributes_for(:naver, name: 'Yusuke Urameshi', birthdate: '1999-05-15', admission_date: '2020-06-12',
                                job_role: 'Desenvolvedor')
@@ -90,6 +92,15 @@ RSpec.describe 'Navers', type: :request do
         expect(json[:admission_date]).to eq('2020-06-12')
         expect(json[:job_role]).to eq('Desenvolvedor')
         expect(json[:projects].size).to eq(2)
+      end
+    end
+
+    context 'fail' do
+      let(:params) { {} }
+
+      it 'missing params' do
+        post '/api/v1/navers', params: params, headers: token
+        expect(response).to have_http_status :unprocessable_entity
       end
     end
 
@@ -199,6 +210,18 @@ RSpec.describe 'Navers', type: :request do
         expect(response).to have_http_status(200)
       end
     end
+
+    context 'fail' do
+      let(:params) { attributes_for(:naver, admission_date: 456, user: 2) }
+
+      it 'missing params' do
+        naver = create(:naver, user: user)
+        other_naver = create(:naver, user: user)
+        put "/api/v1/navers/#{other_naver.id}", params: params, headers: token
+        expect(response).to have_http_status :unprocessable_entity
+      end
+    end
+
     context 'when are not authenticated' do
       it 'returns status code 401' do
         naver = create(:naver, user: user)
