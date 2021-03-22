@@ -4,21 +4,23 @@ RSpec.describe 'Projects', type: :request do
   let!(:user) { create(:user) }
   let!(:projects) { create_list(:project, 10) }
 
-  describe 'GET /api/v1/projects' do
-    let(:valid_params) do
-      {
-        user: {
-          email: user.email,
-          password: user.password
-        }
+  let(:valid_params) do
+    {
+      user: {
+        email: user.email,
+        password: user.password
       }
-    end
+    }
+  end
 
+  before do
+    post '/api/v1/users/sign_in', params: valid_params
+  end
+  
+  let(:token) { { Authorization: response.headers['Authorization'] } }
+
+  describe 'GET /api/v1/projects' do
     context 'when params are correct' do
-      before do
-        post '/api/v1/users/sign_in', params: valid_params
-      end
-      let(:token) { { Authorization: response.headers['Authorization'] } }
 
       it 'returns projects' do
         get '/api/v1/projects', headers: token
@@ -43,20 +45,6 @@ RSpec.describe 'Projects', type: :request do
   # Test suite for POST /api/v1/projects
 
   describe 'POST /api/v1/projects' do
-    let(:valid_params) do
-      {
-        user: {
-          email: user.email,
-          password: user.password
-        }
-      }
-    end
-
-    before do
-      post '/api/v1/users/sign_in', params: valid_params
-    end
-    let(:token) { { Authorization: response.headers['Authorization'] } }
-
     context 'when params are correct' do
       let(:valid_attributes) { attributes_for(:project, name: 'Desconstrução de monolito') }
 
@@ -103,23 +91,6 @@ RSpec.describe 'Projects', type: :request do
 
   # Test suite for GET /api/v1/projects/:id
   describe 'GET /api/v1/projects/:id' do
-    # Auth
-
-    let(:valid_params) do
-      {
-        user: {
-          email: user.email,
-          password: user.password
-        }
-      }
-    end
-
-    before do
-      post '/api/v1/users/sign_in', params: valid_params
-    end
-
-    let(:token) { { Authorization: response.headers['Authorization'] } }
-
     context 'when the record exists' do
       it 'returns the project' do
         project = create(:project)
@@ -154,22 +125,6 @@ RSpec.describe 'Projects', type: :request do
 
   # Test suite for PUT /api/v1/projects/:id
   describe 'PUT /api/v1/projects/:id' do
-    # Auth
-
-    let(:valid_params) do
-      {
-        user: {
-          email: user.email,
-          password: user.password
-        }
-      }
-    end
-
-    before do
-      post '/api/v1/users/sign_in', params: valid_params
-    end
-
-    let(:token) { { Authorization: response.headers['Authorization'] } }
     let(:valid_attributes) { attributes_for(:project, name: 'Desconstrução de monolito') }
 
     context 'when the record exists' do
@@ -207,23 +162,6 @@ RSpec.describe 'Projects', type: :request do
 
   # Test suite for DELETE /api/v1/projects/:id
   describe 'DELETE /api/v1/projects/:id' do
-    # Auth
-
-    let(:valid_params) do
-      {
-        user: {
-          email: user.email,
-          password: user.password
-        }
-      }
-    end
-
-    before do
-      post '/api/v1/users/sign_in', params: valid_params
-    end
-
-    let(:token) { { Authorization: response.headers['Authorization'] } }
-
     it 'returns status code 204' do
       project = create(:project)
       delete "/api/v1/projects/#{project.id}", headers: token

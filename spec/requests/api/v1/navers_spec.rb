@@ -4,21 +4,27 @@ RSpec.describe 'Navers', type: :request do
   let!(:user) { create(:user) }
   let!(:navers) { create_list(:naver, 10, user: user) }
 
-  describe 'GET /api/v1/navers' do
-    let(:valid_params) do
-      {
-        user: {
-          email: user.email,
-          password: user.password
-        }
+  let(:valid_params) do
+    {
+      user: {
+        email: user.email,
+        password: user.password
       }
-    end
+    }
+  end
+  
+  before do
+    post '/api/v1/users/sign_in', params: valid_params
+  end
+  
+  let(:token) { { Authorization: response.headers['Authorization'] } }
+  
+  describe 'GET /api/v1/navers' do
 
     context 'when params are correct' do
       before do
         post '/api/v1/users/sign_in', params: valid_params
       end
-      let(:token) { { Authorization: response.headers['Authorization'] } }
 
       it 'returns navers' do
         get '/api/v1/navers', headers: token
@@ -43,21 +49,6 @@ RSpec.describe 'Navers', type: :request do
   # Test suite for POST /api/v1/navers
 
   describe 'POST /api/v1/navers' do
-    let(:valid_params) do
-      {
-        user: {
-          email: user.email,
-          password: user.password
-        }
-      }
-    end
-
-    before do
-      post '/api/v1/users/sign_in', params: valid_params
-    end
-
-    let(:token) { { Authorization: response.headers['Authorization'] } }
-
     context 'when params are correct' do
       let(:valid_attributes) do
         attributes_for(:naver, name: 'Yusuke Urameshi', birthdate: '1999-05-15', admission_date: '2020-06-12',
@@ -115,23 +106,6 @@ RSpec.describe 'Navers', type: :request do
 
   # Test suite for GET /api/v1/navers/:id
   describe 'GET /api/v1/navers/:id' do
-    # Auth
-
-    let(:valid_params) do
-      {
-        user: {
-          email: user.email,
-          password: user.password
-        }
-      }
-    end
-
-    before do
-      post '/api/v1/users/sign_in', params: valid_params
-    end
-
-    let(:token) { { Authorization: response.headers['Authorization'] } }
-
     context 'when the record exists' do
       it 'returns the naver' do
         project = create(:project)
@@ -174,22 +148,6 @@ RSpec.describe 'Navers', type: :request do
 
   # Test suite for PUT /api/v1/navers/:id
   describe 'PUT /api/v1/navers/:id' do
-    # Auth
-
-    let(:valid_params) do
-      {
-        user: {
-          email: user.email,
-          password: user.password
-        }
-      }
-    end
-
-    before do
-      post '/api/v1/users/sign_in', params: valid_params
-    end
-
-    let(:token) { { Authorization: response.headers['Authorization'] } }
     let(:valid_attributes) do
       attributes_for(:naver, name: 'Yusuke Urameshi', birthdate: '1999-05-15', admission_date: '2020-06-12',
                              job_role: 'Desenvolvedor')
@@ -233,27 +191,12 @@ RSpec.describe 'Navers', type: :request do
 
   # Test suite for DELETE /api/v1/navers/:id
   describe 'DELETE /api/v1/navers/:id' do
-    # Auth
-
-    let(:valid_params) do
-      {
-        user: {
-          email: user.email,
-          password: user.password
-        }
-      }
-    end
-
-    before do
-      post '/api/v1/users/sign_in', params: valid_params
-    end
-
-    let(:token) { { Authorization: response.headers['Authorization'] } }
-
-    it 'returns status code 204' do
-      naver = create(:naver, user: user)
-      delete "/api/v1/navers/#{naver.id}", headers: token
-      expect(response).to have_http_status(204)
+    context 'when the record exists' do
+      it 'returns status code 204' do
+        naver = create(:naver, user: user)
+        delete "/api/v1/navers/#{naver.id}", headers: token
+        expect(response).to have_http_status(204)
+      end
     end
 
     context 'when are not authenticated' do

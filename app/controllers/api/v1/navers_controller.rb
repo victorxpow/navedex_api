@@ -1,4 +1,6 @@
 class Api::V1::NaversController < Api::V1::ApiController
+  before_action :set_naver, only: [:update, :show, :destroy]
+  
   def index
     @navers = Naver.all
 
@@ -17,17 +19,10 @@ class Api::V1::NaversController < Api::V1::ApiController
   end
 
   def show
-    @naver = Naver.find_by(id: params[:id])
-
-    return render status: :not_found if @naver.nil?
-
     render json: @naver, status: :ok
   end
 
   def update
-    @naver = Naver.find_by(id: params[:id])
-    return render status: :not_found if @naver.nil?
-
     @naver.update(naver_params) if naver_params.nil?
 
     return render json: @naver, status: :ok if @naver.update(naver_params)
@@ -35,14 +30,18 @@ class Api::V1::NaversController < Api::V1::ApiController
     render json: @naver.errors, status: :unprocessable_entity
   end
 
-  def destroy
-    @naver = Naver.find_by(id: params[:id])
-    return render status: :not_found if @naver.nil?
 
+  def destroy
     render status: :no_content
   end
 
   private
+
+  def set_naver
+    @naver = Naver.find_by(id: params[:id])
+    return render status: :not_found if @naver.nil?
+    @naver
+  end
 
   def naver_params
     naver_params = params.permit(:name, :birthdate, :admission_date, :job_role, projects: [])
